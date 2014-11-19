@@ -27,7 +27,8 @@ public class MainActivity extends Activity {
         //EditText editText = (EditText) findViewById(R.id.edit_message);
         //String message = editText.getText().toString();
         //intent.putExtra(EXTRA_MESSAGE, message);
-        startActivity(intent);
+        //startActivity(intent);
+        startActivityForResult(intent, 1);
     }
 
     public void showCompanies(View view)
@@ -53,6 +54,7 @@ public class MainActivity extends Activity {
 
         intent.putParcelableArrayListExtra(SHARED_LIST_KEY, mArraylist);
         startActivity(intent);
+        //startActivityForResult(intent, 1);
     }
 
     @Override
@@ -75,5 +77,24 @@ public class MainActivity extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        //super.onActivityResult(requestCode, resultCode, data);
+System.out.println("fffff");
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
+            //DataType yourData = (DataType) data.getParcelableExtra("key");
+            //Do whatever you want with yourData
+
+            String userName = data.getStringExtra("company_name");
+            String businessLine = data.getStringExtra("business_line");
+
+
+            System.out.println(userName);
+            System.out.println(businessLine);
+
+            System.out.println("Yeah Baby");
+        }
     }
 }

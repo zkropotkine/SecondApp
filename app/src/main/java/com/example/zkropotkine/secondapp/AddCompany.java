@@ -1,9 +1,14 @@
 package com.example.zkropotkine.secondapp;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.Toast;
 
 
 public class AddCompany extends Activity {
@@ -35,5 +40,41 @@ public class AddCompany extends Activity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void addCompany(View view) {
+        EditText txtCompanyName = (EditText) findViewById(R.id.company_txt);
+        EditText txtBusinessLine  = (EditText) findViewById(R.id.line_bus_txt);
+
+        String userName = txtCompanyName.getText().toString().trim();
+        String businessLine = txtBusinessLine.getText().toString().trim();
+
+        if(TextUtils.isEmpty(userName)) {
+            Toast.makeText(this, "Please enter the company name ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if(TextUtils.isEmpty(businessLine)) {
+            Toast.makeText(this, "Please enter the business line ", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        Intent data = new Intent();
+        data.putExtra("company_name", userName);
+        data.putExtra("business_line", businessLine);
+        setResult(Activity.RESULT_OK, data);
+        super.onBackPressed();
+        System.out.println("OOOOOOO");
+    }
+
+
+    @Override
+    public void onBackPressed() {
+        Intent data = new Intent();
+        //data.putExtra("key", yourDataHere);
+
+        setResult(Activity.RESULT_CANCELED, data);
+        super.onBackPressed();
+        System.out.println("EKEKEKEKEKEKEKEKEKE");
     }
 }
