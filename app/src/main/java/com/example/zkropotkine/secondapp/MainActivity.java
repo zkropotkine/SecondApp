@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.example.zkropotkine.secondapp.list.ListItem;
 
@@ -14,7 +15,7 @@ import java.util.ArrayList;
 
 public class MainActivity extends Activity {
     public final static String SHARED_LIST_KEY = "com.example.zkropotkine.secondapp.SHARED_LIST_KEY";
-
+    private ArrayList<ListItem> mArraylist = new ArrayList<ListItem>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -24,21 +25,17 @@ public class MainActivity extends Activity {
     public void showAddActivity(View view)
     {
         Intent intent = new Intent(this, AddCompany.class);
-        //EditText editText = (EditText) findViewById(R.id.edit_message);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
-        //startActivity(intent);
+        intent.putExtra("companies_number", mArraylist.size());
+
+        TextView txtCompanyName = (TextView) findViewById(R.id.company_legend);
+        txtCompanyName.setText("");
         startActivityForResult(intent, 1);
     }
 
     public void showCompanies(View view)
     {
         Intent intent = new Intent(this, SeeCompanies.class);
-        //EditText editText = (EditText) findViewById(R.id.edit_message);
-        //String message = editText.getText().toString();
-        //intent.putExtra(EXTRA_MESSAGE, message);
 
-        ArrayList<ListItem> mArraylist = new ArrayList<ListItem>();
         ListItem listItem = new ListItem();
         listItem.setImageUser(getResources().getDrawable(R.drawable.ic_launcher));
         listItem.setHeader("Daniel");
@@ -48,13 +45,12 @@ public class MainActivity extends Activity {
         listItem2.setImageUser(getResources().getDrawable(R.drawable.ic_launcher));
         listItem2.setHeader("Laura");
         listItem2.setSubHeader("Elisa");
-        mArraylist.add(listItem);
-        mArraylist.add(listItem2);
 
+        TextView txtCompanyName = (TextView) findViewById(R.id.company_legend);
+        txtCompanyName.setText("");
 
         intent.putParcelableArrayListExtra(SHARED_LIST_KEY, mArraylist);
         startActivity(intent);
-        //startActivityForResult(intent, 1);
     }
 
     @Override
@@ -81,20 +77,24 @@ public class MainActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //super.onActivityResult(requestCode, resultCode, data);
-System.out.println("fffff");
-        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
-            //DataType yourData = (DataType) data.getParcelableExtra("key");
-            //Do whatever you want with yourData
+        TextView txtCompanyName = (TextView) findViewById(R.id.company_legend);
 
+        if (requestCode == 1 && resultCode == Activity.RESULT_OK) {
             String userName = data.getStringExtra("company_name");
             String businessLine = data.getStringExtra("business_line");
 
+            ListItem listItem2 = new ListItem();
+            listItem2.setImageUser(getResources().getDrawable(R.drawable.ic_launcher));
+            listItem2.setHeader(userName);
+            listItem2.setSubHeader(businessLine);
 
+            mArraylist.add(listItem2);
             System.out.println(userName);
             System.out.println(businessLine);
 
-            System.out.println("Yeah Baby");
+            txtCompanyName.setText("The company was added");
+        } else {
+            txtCompanyName.setText("");
         }
     }
 }

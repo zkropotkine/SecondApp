@@ -8,6 +8,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
@@ -17,6 +18,12 @@ public class AddCompany extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_company);
+
+        Intent intent = getIntent();
+        Integer companiesNumber = intent.getIntExtra("companies_number", 0);
+
+        TextView txtCompanyName = (TextView) findViewById(R.id.counter_txt);
+        txtCompanyName.setText(companiesNumber.toString());
     }
 
 
@@ -64,7 +71,6 @@ public class AddCompany extends Activity {
         data.putExtra("business_line", businessLine);
         setResult(Activity.RESULT_OK, data);
         super.onBackPressed();
-        System.out.println("OOOOOOO");
     }
 
 
@@ -75,6 +81,5 @@ public class AddCompany extends Activity {
 
         setResult(Activity.RESULT_CANCELED, data);
         super.onBackPressed();
-        System.out.println("EKEKEKEKEKEKEKEKEKE");
     }
 }
